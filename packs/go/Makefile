@@ -15,6 +15,11 @@ all: build
 
 check: fmt build test
 
+.PHONY: gen
+gen:
+	@mkdir -p ./pkg/gen
+	@swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+
 build:
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
 
@@ -31,6 +36,9 @@ fmt:
 	@([[ ! -z "$(FORMATTED)" ]] && printf "Fixed unformatted files:\n$(FORMATTED)") || true
 
 clean:
+	@rm -rf pkg/gen/
+	@rm -rf service/demo/build/
+	@rm -f coverage.txt
 	rm -rf build release
 
 linux:

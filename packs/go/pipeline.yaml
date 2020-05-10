@@ -4,6 +4,9 @@ extends:
 pipelines:
   pullRequest:
     build:
+      preSteps:
+        - sh: make gen
+          name: gen-swagger-code
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
         name: container-build
