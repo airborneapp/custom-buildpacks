@@ -13,7 +13,9 @@ pipelines:
         name: make-install-swagger3
       - sh: ./swagger version
         name: make-install-swagger4
-      - sh: make gen
+      - sh: mkdir -p ./pkg/gen
+        name: make-install-swagger5
+      - sh: ./swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
         name: gen-swagger-code
     build:
       steps:
@@ -43,7 +45,9 @@ pipelines:
         name: make-install-swagger3
       - sh: ./swagger version
         name: make-install-swagger4
-      - sh: make gen
+      - sh: mkdir -p ./pkg/gen
+        name: make-install-swagger5
+      - sh: ./swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
         name: gen-swagger-code
     build:
       steps:
