@@ -9,6 +9,8 @@ pipelines:
         name: make-install-swagger1
       - sh: chmod +x swagger
         name: make-install-swagger2
+      - sh: ls -l
+        name: make-install-swagger3
       - sh: make gen
         name: gen-swagger-code
     build:
@@ -35,6 +37,8 @@ pipelines:
         name: make-install-swagger1
       - sh: chmod +x swagger
         name: make-install-swagger2
+      - sh: ls -l
+        name: make-install-swagger3
       - sh: make gen
         name: gen-swagger-code
     build:
