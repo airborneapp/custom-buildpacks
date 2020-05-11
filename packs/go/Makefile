@@ -20,12 +20,10 @@ install-swagger:
 	sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
 	sudo chmod +x /usr/local/bin/swagger
 
-
 .PHONY: gen
 gen:
 	ls -l
-	@mkdir -p ./pkg/gen
-	./swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+	/workspace/source/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
 build:
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)

@@ -47,8 +47,9 @@ pipelines:
         name: make-install-swagger5
       - sh: ls -l && pwd
         name: make-install-swagger2
-      - sh: ./swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+      - sh: make gen
         name: gen-swagger-code
+
     build:
       steps:
       - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml
