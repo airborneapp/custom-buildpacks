@@ -15,6 +15,7 @@ all: build
 
 check: fmt build test
 
+.PHONY: install-swagger
 install-swagger:
 	sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
 	sudo chmod +x /usr/local/bin/swagger
