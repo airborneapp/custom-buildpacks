@@ -13,7 +13,7 @@ VENDOR_DIR=vendor
 
 all: gen build
 
-check: fmt build test
+check: fmt gen build test
 
 .PHONY: install-swagger
 install-swagger:
@@ -26,7 +26,7 @@ gen:
 	/workspace/source/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
 build:
-	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
+	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) ./service/demo/$(MAIN_GO)
 
 test: 
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) test $(PACKAGE_DIRS) -test.v
