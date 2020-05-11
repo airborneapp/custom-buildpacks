@@ -16,11 +16,11 @@ all: build
 check: fmt build test
 
 install-swagger:
-	curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
-	chmod +x /usr/local/bin/swagger
+	sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
+	sudo chmod +x /usr/local/bin/swagger
 
 .PHONY: gen
-gen: install-swagger
+gen:
 	@mkdir -p ./pkg/gen
 	@swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
