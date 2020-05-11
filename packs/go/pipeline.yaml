@@ -5,9 +5,9 @@ pipelines:
   pullRequest:
     preBuild:
       steps:
-      - sh: sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
+      - sh: curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
         name: make-install-swagger1
-      - sh: sudo chmod +x /usr/local/bin/swagger
+      - sh: chmod +x /usr/local/bin/swagger
         name: make-install-swagger2
       - sh: make gen
         name: gen-swagger-code
@@ -31,9 +31,9 @@ pipelines:
   release:
     preBuild:
       steps:
-      - sh: sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
+      - sh: curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
         name: make-install-swagger1
-      - sh: sudo chmod +x /usr/local/bin/swagger
+      - sh: chmod +x /usr/local/bin/swagger
         name: make-install-swagger2
       - sh: make gen
         name: gen-swagger-code
