@@ -2,7 +2,7 @@ SHELL := /bin/bash
 GO := GO15VENDOREXPERIMENT=1 go
 NAME := REPLACE_ME_APP_NAME
 OS := $(shell uname)
-MAIN_GO := main.go
+MAIN_GO := service.go
 ROOT_PACKAGE := $(GIT_PROVIDER)/REPLACE_ME_ORG/$(NAME)
 GO_VERSION := $(shell $(GO) version | sed -e 's/^[^0-9.]*\([0-9.]*\).*/\1/')
 PACKAGE_DIRS := $(shell $(GO) list ./... | grep -v /vendor/)
@@ -11,7 +11,7 @@ BUILDFLAGS := ''
 CGO_ENABLED = 0
 VENDOR_DIR=vendor
 
-all: build
+all: gen build
 
 check: fmt build test
 
@@ -47,7 +47,7 @@ clean:
 	rm -rf build release
 
 linux:
-	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
+	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) ./service/demo/$(MAIN_GO)
 
 .PHONY: release clean
 
