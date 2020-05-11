@@ -9,7 +9,7 @@ pipelines:
         name: make-install-swagger1
       - sh: chmod +x /usr/local/bin/swagger
         name: make-install-swagger2
-      - sh: echo $PATH
+      - sh: swagger version
         name: make-install-swagger3
       - sh: make gen
         name: gen-swagger-code
@@ -37,7 +37,7 @@ pipelines:
         name: make-install-swagger1
       - sh: chmod +x /usr/local/bin/swagger
         name: make-install-swagger2
-      - sh: echo $PATH
+      - sh: swagger version
         name: make-install-swagger3
       - sh: make gen
         name: gen-swagger-code

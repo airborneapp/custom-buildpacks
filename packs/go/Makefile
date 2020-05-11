@@ -24,7 +24,7 @@ install-swagger:
 .PHONY: gen
 gen:
 	@mkdir -p ./pkg/gen
-	@swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+	/usr/local/bin/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
 build:
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
