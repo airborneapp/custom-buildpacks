@@ -15,8 +15,12 @@ all: build
 
 check: fmt build test
 
+GOSWAGGER := $(GOPATH)/bin/swagger
+$(GOSWAGGER):
+	go get github.com/go-swagger/go-swagger/cmd/swagger
+
 .PHONY: gen
-gen:
+gen: $(GOSWAGGER)
 	@mkdir -p ./pkg/gen
 	@swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
