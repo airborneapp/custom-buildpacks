@@ -5,6 +5,8 @@ pipelines:
   pullRequest:
     preBuild:
       steps:
+      - sh: make install-swagger
+        name: make-install-swagger
       - sh: make gen
         name: gen-swagger-code
     build:
@@ -27,6 +29,8 @@ pipelines:
   release:
     preBuild:
       steps:
+      - sh: make install-swagger
+        name: make-install-swagger
       - sh: make gen
         name: gen-swagger-code
     build:
