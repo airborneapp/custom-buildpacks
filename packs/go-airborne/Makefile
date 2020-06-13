@@ -2,7 +2,7 @@ SHELL := /bin/bash
 GO := GO15VENDOREXPERIMENT=1 go
 NAME := REPLACE_ME_APP_NAME
 OS := $(shell uname)
-MAIN_GO := main.go
+MAIN_GO := ./service/REPLACE_ME_APP_NAME/service.go
 ROOT_PACKAGE := $(GIT_PROVIDER)/REPLACE_ME_ORG/$(NAME)
 GO_VERSION := $(shell $(GO) version | sed -e 's/^[^0-9.]*\([0-9.]*\).*/\1/')
 PACKAGE_DIRS := $(shell $(GO) list ./... | grep -v /vendor/)
@@ -16,7 +16,8 @@ all: build
 check: fmt build test
 
 build:
-	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
+	#CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
+	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
 
 test: 
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) test $(PACKAGE_DIRS) -test.v
@@ -60,3 +61,21 @@ lint: vendor | $(PKGS) $(GOLINT) # ❷
 	    test -z "$$($(GOLINT) $$pkg | tee /dev/stderr)" || ret=1 ; \
 	done ; exit $$ret
 
+
+.PHONY: gen-swagger
+gen-swagger:
+	@mkdir -p ./pkg/gen
+	/workspace/source/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+
+.PHONY: gen
+gen:
+	@mkdir -p ./pkg/gen
+	@swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+
+.PHONY: run
+run:
+# Service dockerization is disabled for the sake of simplicity and speed of testing.
+#	@docker run -it -p 8080:8080 $(DEMO_SERVICE_NAME)-$(GIT_BRANCH):$(DEMO_SERVICE_VERSION)
+    # Starts docker containers for MySql, DynamoDb, and Consul. This is required for local testing
+	@docker-compose up -d
+	@sleep 3
