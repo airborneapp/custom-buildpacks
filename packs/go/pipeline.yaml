@@ -9,7 +9,7 @@ pipelines:
         name: install-swagger
       - sh: chmod +x swagger
         name: swagger-permission
-      - sh: make gen
+      - sh: make gen-swagger
         name: gen-swagger-code
     build:
       steps:
@@ -35,7 +35,9 @@ pipelines:
         name: install-swagger
       - sh: chmod +x swagger
         name: swagger-permission
-      - sh: make gen
+      - sh: ls -l
+        name: list-dir
+      - sh: make gen-swagger
         name: gen-swagger-code
 
     build:
