@@ -2,7 +2,7 @@ SHELL := /bin/bash
 GO := GO15VENDOREXPERIMENT=1 go
 NAME := REPLACE_ME_APP_NAME
 OS := $(shell uname)
-MAIN_GO := service.go
+MAIN_GO := main.go
 ROOT_PACKAGE := $(GIT_PROVIDER)/REPLACE_ME_ORG/$(NAME)
 GO_VERSION := $(shell $(GO) version | sed -e 's/^[^0-9.]*\([0-9.]*\).*/\1/')
 PACKAGE_DIRS := $(shell $(GO) list ./... | grep -v /vendor/)
@@ -11,22 +11,12 @@ BUILDFLAGS := ''
 CGO_ENABLED = 0
 VENDOR_DIR=vendor
 
-all: gen build
+all: build
 
-check: fmt gen build test
-
-.PHONY: install-swagger
-install-swagger:
-	sudo curl -o /usr/local/bin/swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
-	sudo chmod +x /usr/local/bin/swagger
-
-.PHONY: gen
-gen:
-	ls -l
-	/workspace/source/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+check: fmt build test
 
 build:
-	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) ./service/demo/$(MAIN_GO)
+	CGO_ENABLED=$(CGO_ENABLED) $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
 
 test: 
 	CGO_ENABLED=$(CGO_ENABLED) $(GO) test $(PACKAGE_DIRS) -test.v
@@ -41,13 +31,10 @@ fmt:
 	@([[ ! -z "$(FORMATTED)" ]] && printf "Fixed unformatted files:\n$(FORMATTED)") || true
 
 clean:
-	@rm -rf pkg/gen/
-	@rm -rf service/demo/build/
-	@rm -f coverage.txt
 	rm -rf build release
 
 linux:
-	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) ./service/demo/$(MAIN_GO)
+	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=amd64 $(GO) build -ldflags $(BUILDFLAGS) -o bin/$(NAME) $(MAIN_GO)
 
 .PHONY: release clean
 
