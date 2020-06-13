@@ -3,6 +3,14 @@ extends:
   file: go/pipeline.yaml
 pipelines:
   pullRequest:
+    preBuild:
+      steps:
+      - sh: curl -o swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
+        name: install-swagger
+      - sh: chmod +x swagger
+        name: swagger-permission
+      - sh: make gen
+        name: gen-swagger-code
     build:
       steps:
       - sh: export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml
@@ -23,11 +31,12 @@ pipelines:
   release:
     preBuild:
       steps:
-      - name: make-install-swagger
-        command: |
-          curl -o swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
-          chmod +x swagger
-          make gen
+      - sh: curl -o swagger -L  https://github.com/go-swagger/go-swagger/releases/download/v0.23.0/swagger_linux_amd64
+        name: install-swagger
+      - sh: chmod +x swagger
+        name: swagger-permission
+      - sh: make gen
+        name: gen-swagger-code
 
     build:
       steps:
