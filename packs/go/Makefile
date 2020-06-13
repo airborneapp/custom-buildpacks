@@ -64,7 +64,7 @@ lint: vendor | $(PKGS) $(GOLINT) # ❷
 .PHONY: gen-swagger
 gen-swagger:
 	@mkdir -p ./pkg/gen
-	./swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
+	/workspace/source/swagger generate server --target ./pkg/gen --name SwaggerRest --spec swagger.yaml
 
 .PHONY: gen
 gen:
