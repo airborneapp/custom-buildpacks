@@ -9,6 +9,15 @@ image:
 
 # define environment variables here as a map of key: value
 env:
+  AIRBORNEAPP_SERVICE_NAME: "REPLACE_ME_APP_NAME"
+  AIRBORNEAPP_SERVICE_ENVIRONMENT: "dev"
+  SERVICE_GIT_BRANCH : "master"
+  LISTEN_PORT: "8080"
+
+envFrom:
+  - secretRef:
+      name: aws-secrets
+
 
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
